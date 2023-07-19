@@ -1,8 +1,8 @@
 package com.przemekbarczyk.springlibraryrestapi.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity(name = "users")
@@ -23,10 +23,9 @@ public class User {
     @NotBlank(message = "Email is empty or blank")
     private String email;
 
-    @Min(value = 6, message = "Password has less than 6 characters")
+    @Size(min = 6, message = "Password has less than 6 characters")
     private String password;
 
-    @NotBlank(message = "Role is empty or blank")
     @Enumerated(EnumType.STRING)
     private UserRole role;
 }

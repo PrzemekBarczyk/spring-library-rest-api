@@ -30,7 +30,6 @@ public class Book {
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
 
-    @NotBlank(message = "Status is empty or blank")
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
