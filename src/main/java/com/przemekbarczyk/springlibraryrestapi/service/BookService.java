@@ -4,8 +4,10 @@ import com.przemekbarczyk.springlibraryrestapi.mapper.BookMapper;
 import com.przemekbarczyk.springlibraryrestapi.model.Book;
 import com.przemekbarczyk.springlibraryrestapi.model.BookStatus;
 import com.przemekbarczyk.springlibraryrestapi.model.User;
+import com.przemekbarczyk.springlibraryrestapi.model.UserRole;
 import com.przemekbarczyk.springlibraryrestapi.repository.BookRepository;
 import com.przemekbarczyk.springlibraryrestapi.request.BookRequest;
+import com.przemekbarczyk.springlibraryrestapi.security.UserPrincipal;
 import com.przemekbarczyk.springlibraryrestapi.utility.PagingUtility;
 import com.przemekbarczyk.springlibraryrestapi.utility.SpecificationUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,17 @@ public class BookService {
         }
 
         return page;
+    }
+
+    public List<Book> getBooksByReaderPrincipal(UserPrincipal principal) {
+
+        String userRole = principal.getAuthorities().iterator().next().getAuthority();
+
+        if (!userRole.equalsIgnoreCase(UserRole.READER.name())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only reader can borrow and reserve books");
+        }
+
+        return getBooksByReaderId(principal.getId());
     }
 
     private List<Book> getBooksByReaderId(Long id) {
