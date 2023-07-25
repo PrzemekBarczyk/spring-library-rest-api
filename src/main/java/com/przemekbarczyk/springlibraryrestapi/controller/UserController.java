@@ -7,7 +7,6 @@ import com.przemekbarczyk.springlibraryrestapi.request.PasswordRequest;
 import com.przemekbarczyk.springlibraryrestapi.request.UserRequest;
 import com.przemekbarczyk.springlibraryrestapi.security.UserPrincipal;
 import com.przemekbarczyk.springlibraryrestapi.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -38,16 +37,15 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/librarian/users")
-    @JsonIgnoreProperties(value = "password")
-    public ResponseEntity<Page<User>> getSortedPageOfFilteredUsersWithoutPasswords(
+    @GetMapping("/librarian/users/readers")
+    public ResponseEntity<Page<User>> getSortedPageOfFilteredReaders(
             @RequestBody(required = false) User user,
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "lastName") String sortBy,
             @RequestParam(defaultValue = "ascending") String sortDirection) {
 
-        Page<User> users = userService.getSortedPageOfFilteredUsers(
+        Page<User> users = userService.getSortedPageOfFilteredReaders(
                 user,
                 pageNumber, pageSize,
                 sortBy, sortDirection);
@@ -93,21 +91,21 @@ public class UserController {
 
 
 
-    @PostMapping("/admin/user/{id}")
+    @PutMapping("/admin/user/{id}")
     public ResponseEntity<User> editUser(@PathVariable Long id, @RequestBody @Validated UserRequest newDataRequest) {
 
         User editedUser = userService.editUserById(id, newDataRequest);
         return new ResponseEntity<>(editedUser, HttpStatus.OK);
     }
 
-    @PostMapping("/librarian/user/reader/{id}")
+    @PutMapping("/librarian/user/reader/{id}")
     public ResponseEntity<User> editReader(@PathVariable Long id, @RequestBody @Validated UserRequest newDataRequest) {
 
         User editedUser = userService.editReaderById(id, newDataRequest);
         return new ResponseEntity<>(editedUser, HttpStatus.OK);
     }
 
-    @PostMapping("/reader/user/logged")
+    @PatchMapping("/reader/user/logged/password")
     public ResponseEntity<User> editPassword(
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestBody @Validated PasswordRequest passwordRequest) {
