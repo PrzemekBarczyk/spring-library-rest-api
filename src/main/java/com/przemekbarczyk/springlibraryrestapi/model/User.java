@@ -1,5 +1,6 @@
 package com.przemekbarczyk.springlibraryrestapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -23,6 +24,7 @@ public class User {
     @NotBlank(message = "Email is empty or blank")
     private String email;
 
+    @JsonIgnore
     @Size(min = 6, message = "Password has less than 6 characters")
     private String password;
 
