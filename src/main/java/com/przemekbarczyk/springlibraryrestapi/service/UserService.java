@@ -45,6 +45,20 @@ public class UserService {
         return page;
     }
 
+    public Page<User> getSortedPageOfFilteredReaders(
+            User user,
+            Integer pageNumber, Integer pageSize,
+            String sortBy, String sortDirection) {
+
+        if (user == null) {
+            user = new User();
+        }
+
+        user.setRole(UserRole.READER);
+
+        return getSortedPageOfFilteredUsers(user, pageNumber, pageSize, sortBy, sortDirection);
+    }
+
 
 
     public User getUserById(Long id) {
