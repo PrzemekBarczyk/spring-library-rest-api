@@ -87,7 +87,7 @@ public class BookController {
 
 
 
-    @PostMapping("/librarian/book/{id}")
+    @PutMapping("/librarian/book/{id}")
     public ResponseEntity<Book> editBookById(@PathVariable Long originalBookId, @RequestBody Book newData) {
 
         Book updatedBook = bookService.editBookById(originalBookId, newData);
@@ -96,14 +96,14 @@ public class BookController {
 
 
 
-    @GetMapping("/librarian/book/{bookId}/reader/{readerId}/reserve")
+    @PatchMapping("/librarian/book/{bookId}/reader/{readerId}/reserve")
     public ResponseEntity<Book> reserveBookById(@PathVariable Long bookId, @PathVariable Long readerId) {
 
         Book reservedBook = bookService.reserveBookById(bookId, readerId);
         return new ResponseEntity<>(reservedBook, HttpStatus.OK);
     }
 
-    @GetMapping("/reader/book/{bookId}/reader/logged/reserve")
+    @PatchMapping("/reader/book/{bookId}/reader/logged/reserve")
     public ResponseEntity<Book> reserveBookByIdByLoggedReader(
             @PathVariable Long bookId,
             @AuthenticationPrincipal UserPrincipal principal) {
@@ -112,14 +112,14 @@ public class BookController {
         return new ResponseEntity<>(reservedBook, HttpStatus.OK);
     }
 
-    @GetMapping("/librarian/book/{bookId}/reader/{readerId}/cancel-reservation")
+    @PatchMapping("/librarian/book/{bookId}/reader/{readerId}/cancel-reservation")
     public ResponseEntity<Book> cancelBookReservationById(@PathVariable Long bookId, @PathVariable Long readerId) {
 
         Book canceledBook = bookService.cancelBookReservationById(bookId, readerId);
         return new ResponseEntity<>(canceledBook, HttpStatus.OK);
     }
 
-    @GetMapping("/reader/book/{bookId}/reader/logged/cancel-reservation")
+    @PatchMapping("/reader/book/{bookId}/reader/logged/cancel-reservation")
     public ResponseEntity<Book> cancelBookReservationByIdByLoggedReader(
             @PathVariable Long bookId,
             @AuthenticationPrincipal UserPrincipal principal) {
@@ -130,14 +130,14 @@ public class BookController {
 
 
 
-    @GetMapping("/librarian/book/{bookId}/reader/{readerId}/borrow")
+    @PatchMapping("/librarian/book/{bookId}/reader/{readerId}/borrow")
     public ResponseEntity<Book> borrowBookById(@PathVariable Long bookId, @PathVariable Long readerId) {
 
         Book loanedBook = bookService.borrowBookById(bookId, readerId);
         return new ResponseEntity<>(loanedBook, HttpStatus.OK);
     }
 
-    @GetMapping("/librarian/book/{bookId}/reader/{readerId}/return")
+    @PatchMapping("/librarian/book/{bookId}/reader/{readerId}/return")
     public ResponseEntity<Book> returnBookById(@PathVariable Long bookId, @PathVariable Long readerId) {
 
         Book returnedBook = bookService.returnBookById(bookId, readerId);
