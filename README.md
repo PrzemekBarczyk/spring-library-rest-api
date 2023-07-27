@@ -167,10 +167,11 @@ Response Body
 ## Technology stack
 
 - Java 17
-- Spring Boot
-- Spring Security
+- Spring Boot 3.1.1
+- Spring Security 6.1.1
 - JWT, Auth0
 - JPA, Hibernate
 - H2 Database
 - Validation
 - Lombok
+- JUnit 5
