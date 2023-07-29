@@ -5,7 +5,9 @@ import com.przemekbarczyk.springlibraryrestapi.security.UserPrincipal;
 import com.przemekbarczyk.springlibraryrestapi.utility.JWTTokenUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,10 @@ public class AuthenticationService {
 
             return jwtTokenUtility.generateAccessToken(principal.getId(), principal.getEmail(), role);
         }
-        catch (IllegalArgumentException ex) {
+        catch (InternalAuthenticationServiceException ex) { // invalid email
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+        }
+        catch (IllegalArgumentException ex) { // invalid password
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
     }
